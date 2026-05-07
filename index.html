@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Klaviyo Hub Time - Global Signal</title>
+<style>
+:root{
+  --charcoal:#101214;
+  --black:#050607;
+  --panel:rgba(255,255,255,.085);
+  --panel2:rgba(255,255,255,.055);
+  --line:rgba(255,255,255,.14);
+  --line-soft:rgba(255,255,255,.08);
+  --text:#f7f0e8;
+  --muted:rgba(247,240,232,.62);
+  --dim:rgba(247,240,232,.38);
+  --lime:#d7ff38;
+  --cyan:#49eaff;
+  --violet:#b78cff;
+  --orange:#ffb35a;
+  --green:#67ff9b;
+  --red:#ff7373;
+  --shadow:0 32px 120px rgba(0,0,0,.48);
+}
+*{box-sizing:border-box}
+html,body{width:100%;height:100%;margin:0;overflow:hidden;background:#050607;color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;}
+body{touch-action:manipulation;-webkit-font-smoothing:antialiased;}
+button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer;text-align:left}
+.app{position:relative;width:100vw;height:100vh;min-height:700px;overflow:hidden;isolation:isolate;background:#050607;}
+.app::before{content:"";position:absolute;inset:-18%;z-index:-5;background:
+  radial-gradient(circle at 14% 8%,rgba(215,255,56,.17),transparent 26%),
+  radial-gradient(circle at 83% 9%,rgba(73,234,255,.12),transparent 24%),
+  radial-gradient(circle at 78% 76%,rgba(183,140,255,.15),transparent 30%),
+  linear-gradient(180deg,#070809 0%,#101214 45%,#050607 100%);}
+.app::after{content:"";position:absolute;inset:0;z-index:-4;background:
+  linear-gradient(rgba(255,255,255,.032) 1px,transparent 1px),
+  linear-gradient(90deg,rgba(255,255,255,.024) 1px,transparent 1px);
+  background-size:42px 42px;mask-image:radial-gradient(circle at 50% 35%,black,transparent 80%);}
+.aurora{position:absolute;inset:-15%;z-index:-3;background:
+  conic-gradient(from 210deg at 50% 45%,transparent 0 20%,rgba(215,255,56,.10) 29%,transparent 38%,rgba(73,234,255,.08) 50%,transparent 66%,rgba(183,140,255,.08) 78%,transparent 88%);
+  filter:blur(18px);animation:spin 38s linear infinite;opacity:.9}
+.scanline{position:absolute;left:0;right:0;top:-8%;height:3px;z-index:-1;background:linear-gradient(90deg,transparent,rgba(215,255,56,.95),rgba(73,234,255,.55),transparent);box-shadow:0 0 40px rgba(215,255,56,.46);animation:scan 8s linear infinite;opacity:.72}
+.no-motion *, .no-motion *::before, .no-motion *::after{animation:none!important;transition:none!important}
+.logo-shell{position:absolute;z-index:50;left:5.6vw;top:3.6vh;width:min(27vw,260px);min-width:168px;padding:13px 18px;border-radius:20px;background:rgba(247,240,232,.97);box-shadow:0 16px 62px rgba(0,0,0,.34);border:1px solid rgba(255,255,255,.55)}
+.logo-shell img{display:block;width:100%;height:auto}
+.top-status{position:absolute;z-index:50;right:5.6vw;top:4vh;text-align:right;color:rgba(247,240,232,.52);font-size:clamp(11px,1.1vw,15px);letter-spacing:.18em;text-transform:uppercase;font-weight:720}
+.top-status b{display:block;color:var(--text);font-size:clamp(19px,2.15vw,29px);letter-spacing:.01em;text-transform:none;margin-top:4px;font-variant-numeric:tabular-nums}
+.scene{position:absolute;inset:0;padding:13vh 5.6vw 6vh;display:none;overflow:hidden}.scene.active{display:block}
+.eyebrow{display:flex;align-items:center;gap:12px;color:rgba(215,255,56,.92);font-size:clamp(11px,1.18vw,15px);font-weight:800;letter-spacing:.24em;text-transform:uppercase}.eyebrow::before{content:"";width:34px;height:2px;background:linear-gradient(90deg,var(--lime),transparent);box-shadow:0 0 18px rgba(215,255,56,.62)}
+h1{margin:0;font-size:clamp(58px,8.8vw,118px);line-height:.86;letter-spacing:-.079em;font-weight:820}h1 .lite{font-weight:430;color:rgba(247,240,232,.76)}
+.copy{max-width:760px;color:var(--muted);font-size:clamp(17px,2.05vw,27px);line-height:1.34;margin:1.35vh 0 0}.panel{background:linear-gradient(145deg,rgba(255,255,255,.13),rgba(255,255,255,.046));border:1px solid var(--line);box-shadow:var(--shadow);backdrop-filter:blur(24px);border-radius:34px}.small{font-size:clamp(11px,1.1vw,15px);letter-spacing:.19em;text-transform:uppercase;color:rgba(247,240,232,.53);font-weight:800}.mono{font-variant-numeric:tabular-nums;font-feature-settings:"tnum"}.pulse{display:inline-block;width:10px;height:10px;border-radius:50%;background:var(--lime);box-shadow:0 0 0 8px rgba(215,255,56,.10),0 0 28px rgba(215,255,56,.84);animation:breathe 1.8s ease-in-out infinite}.pulse.off{background:rgba(247,240,232,.45);box-shadow:0 0 0 7px rgba(247,240,232,.08)}
+.hints{position:absolute;z-index:120;left:50%;bottom:2.1vh;transform:translateX(-50%);display:flex;gap:10px;align-items:center;padding:9px 12px;border-radius:999px;background:rgba(5,6,7,.70);border:1px solid rgba(255,255,255,.13);box-shadow:0 22px 70px rgba(0,0,0,.4);backdrop-filter:blur(18px)}
+.hints button,.hint-chip{height:40px;min-width:40px;border-radius:999px;display:grid;place-items:center;padding:0 14px;color:rgba(247,240,232,.68);font-size:13px;letter-spacing:.12em;text-transform:uppercase;border:1px solid rgba(255,255,255,.08);transition:.22s}.hints button.active{background:var(--text);color:#111315;box-shadow:0 0 0 3px rgba(215,255,56,.25),0 0 38px rgba(215,255,56,.2)}.clean .hints,.hide-hints .hints{display:none}.hint-chip{color:rgba(247,240,232,.42);white-space:nowrap}
+@keyframes spin{to{transform:rotate(360deg)}}@keyframes scan{to{transform:translateY(116vh)}}@keyframes breathe{0%,100%{transform:scale(1);opacity:.58}50%{transform:scale(1.25);opacity:1}}@keyframes drift{to{background-position:880px 0,0 880px}}@keyframes orbitPulse{0%,100%{box-shadow:0 0 0 0 rgba(215,255,56,.38),0 0 32px rgba(215,255,56,.24)}50%{box-shadow:0 0 0 22px rgba(215,255,56,0),0 0 52px rgba(215,255,56,.5)}}@keyframes wave{0%{transform:translateX(-100%)}100%{transform:translateX(115%)}}
+
+.signal-wrap{height:100%;display:grid;grid-template-rows:auto 47.5vh 1fr;gap:2.15vh}.signal-head{display:grid;gap:.4vh}.signal-dashboard{display:grid;grid-template-columns:1fr;grid-template-rows:1fr auto;gap:1.8vh;min-height:0}.signal-main{position:relative;overflow:hidden;padding:2.6vh 3.1vw;display:grid;grid-template-columns:1fr .66fr;gap:2.6vw;align-items:stretch}.signal-main::before{content:"";position:absolute;inset:-30%;background:repeating-conic-gradient(from 0deg,rgba(215,255,56,.30) 0 3deg,transparent 3deg 14deg);mask:radial-gradient(circle at 31% 50%,transparent 0 26%,black 26.4% 28.5%,transparent 29%);animation:spin 28s linear infinite;opacity:.72}.signal-main::after{content:"";position:absolute;inset:0;background:linear-gradient(120deg,transparent 0 40%,rgba(255,255,255,.08) 44%,transparent 48%);animation:wave 6.5s ease-in-out infinite;opacity:.5}.radar-zone{position:relative;min-height:0;display:grid;place-items:center}.radar{position:relative;width:min(54vw,44vh);aspect-ratio:1;border-radius:50%;display:grid;place-items:center;background:radial-gradient(circle,rgba(215,255,56,.08) 0 28%,rgba(73,234,255,.045) 42%,transparent 70%);border:1px solid rgba(255,255,255,.12);box-shadow:inset 0 0 80px rgba(255,255,255,.03),0 0 90px rgba(73,234,255,.08)}.radar::before,.radar::after{content:"";position:absolute;border-radius:50%;inset:10%;border:1px solid rgba(255,255,255,.10)}.radar::after{inset:24%;border-color:rgba(215,255,56,.22);box-shadow:0 0 45px rgba(215,255,56,.08)}.sweep{position:absolute;inset:0;border-radius:50%;background:conic-gradient(from 0deg,rgba(215,255,56,.34),transparent 34deg,transparent 360deg);mask:radial-gradient(circle,transparent 0 4%,black 5% 64%,transparent 65%);animation:spin 7s linear infinite}.hero-clock{position:relative;z-index:2;text-align:center;max-width:100%;padding:0 1vw}.hero-city{font-size:clamp(34px,5.4vw,74px);line-height:.9;letter-spacing:-.06em;font-weight:820}.hero-time{font-size:clamp(88px,15vw,194px);line-height:.77;letter-spacing:-.09em;font-weight:840;margin-top:1.2vh;text-shadow:0 0 48px rgba(215,255,56,.16)}.hero-meta{display:inline-flex;align-items:center;gap:13px;flex-wrap:wrap;justify-content:center;margin-top:2vh;padding:13px 16px;border-radius:999px;background:rgba(255,255,255,.075);border:1px solid rgba(255,255,255,.12);color:rgba(247,240,232,.76);font-size:clamp(13px,1.35vw,19px)}.side-stack{position:relative;z-index:2;display:grid;gap:1.55vh;min-width:0}.metric-card{position:relative;overflow:hidden;padding:2.2vh 2vw;border-radius:28px;background:rgba(255,255,255,.074);border:1px solid rgba(255,255,255,.12)}.metric-card::after{content:"";position:absolute;left:0;right:0;bottom:0;height:3px;background:linear-gradient(90deg,var(--lime),transparent);opacity:.82}.metric-card b{display:block;font-size:clamp(44px,6.7vw,86px);line-height:.84;letter-spacing:-.07em;margin:.9vh 0 .5vh}.metric-card p{margin:0;color:rgba(247,240,232,.62);font-size:clamp(14px,1.5vw,20px);line-height:1.28}.mini-flow{height:86px;display:grid;grid-template-columns:repeat(24,1fr);align-items:end;gap:4px;margin-top:1.4vh}.mini-flow span{display:block;border-radius:999px 999px 2px 2px;background:linear-gradient(180deg,rgba(215,255,56,.85),rgba(73,234,255,.30));height:calc(14px + var(--h)*1px);opacity:.75;animation:breathe calc(1.6s + var(--d)*.04s) ease-in-out infinite}.ticker{position:relative;z-index:2;display:flex;gap:10px;align-items:center;overflow:hidden;padding:1.25vh 1.5vw;border-radius:24px;background:rgba(215,255,56,.062);border:1px solid rgba(215,255,56,.15);color:rgba(247,240,232,.58);font-size:clamp(12px,1.1vw,15px);letter-spacing:.17em;text-transform:uppercase;white-space:nowrap}.ticker-track{display:flex;gap:26px;animation:marq 28s linear infinite}@keyframes marq{to{transform:translateX(-50%)}}.hub-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.3vw;min-height:0}.hub-card{position:relative;overflow:hidden;padding:1.8vh 1.45vw;border-radius:26px;background:rgba(255,255,255,.074);border:1px solid rgba(255,255,255,.12);transition:.24s ease;min-height:13.8vh}.hub-card::before{content:"";position:absolute;left:0;right:0;bottom:0;height:4px;background:linear-gradient(90deg,var(--cyan),var(--lime));transform:scaleX(var(--day));transform-origin:left;opacity:.95}.hub-card::after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 85% 12%,rgba(215,255,56,.13),transparent 28%);opacity:0;transition:.24s}.hub-card:hover,.hub-card.selected{transform:translateY(-5px);background:rgba(255,255,255,.12);border-color:rgba(215,255,56,.46);box-shadow:0 18px 58px rgba(215,255,56,.11)}.hub-card.selected::after{opacity:1}.hub-card-name{position:relative;z-index:2;font-size:clamp(17px,1.9vw,27px);letter-spacing:-.04em;font-weight:800}.hub-card-time{position:relative;z-index:2;font-size:clamp(34px,4.3vw,59px);line-height:.86;letter-spacing:-.07em;font-weight:820;margin-top:.8vh}.hub-card-state{position:relative;z-index:2;margin-top:1.2vh;display:flex;gap:9px;align-items:center;color:rgba(247,240,232,.56);font-size:clamp(11px,1.16vw,16px);white-space:nowrap}.tiny-dot{width:7px;height:7px;border-radius:50%;background:var(--lime);box-shadow:0 0 16px rgba(215,255,56,.7)}.tiny-dot.off{background:rgba(247,240,232,.38);box-shadow:none}
+
+.orbit-wrap{height:100%;display:grid;grid-template-rows:auto 1fr auto;gap:2vh}.orbit-head{display:grid;grid-template-columns:1fr auto;gap:3vw;align-items:end}.orbit-live{min-width:232px;padding:1.45vh 1.5vw;border-radius:26px;background:rgba(255,255,255,.073);border:1px solid rgba(255,255,255,.13)}.orbit-live b{display:block;font-size:clamp(38px,5.2vw,70px);line-height:.85;letter-spacing:-.08em}.orbit-live span{display:flex;align-items:center;gap:10px;color:rgba(247,240,232,.62);margin-top:.7vh}.orbit-space{position:relative;min-height:0;border-radius:38px;overflow:hidden;background:linear-gradient(145deg,rgba(255,255,255,.08),rgba(255,255,255,.035));border:1px solid rgba(255,255,255,.11);box-shadow:var(--shadow)}.orbit-space::before{content:"";position:absolute;inset:0;background:
+ radial-gradient(circle at 50% 40%,rgba(73,234,255,.10),transparent 42%),
+ linear-gradient(rgba(255,255,255,.034) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.026) 1px,transparent 1px);background-size:auto,56px 56px,56px 56px;mask-image:radial-gradient(circle at 50% 45%,black,transparent 76%)}.orbital-core{position:absolute;left:50%;top:48%;width:min(78vw,62vh);aspect-ratio:1;border-radius:50%;transform:translate(-50%,-50%);background:radial-gradient(circle at 36% 28%,rgba(247,240,232,.15),transparent 17%),radial-gradient(circle,rgba(73,234,255,.11),rgba(215,255,56,.055) 36%,transparent 66%);border:1px solid rgba(255,255,255,.15);box-shadow:inset 0 0 90px rgba(255,255,255,.035),0 0 130px rgba(73,234,255,.10)}.orbital-core::before,.orbital-core::after{content:"";position:absolute;inset:-9%;border-radius:50%;border:1px solid rgba(255,255,255,.13);transform:rotateX(64deg) rotateZ(-18deg)}.orbital-core::after{inset:13%;border-color:rgba(215,255,56,.24);animation:spin 34s linear infinite}.latlines{position:absolute;inset:8%;border-radius:50%;background:repeating-radial-gradient(circle,transparent 0 29px,rgba(255,255,255,.05) 30px 31px);mask-image:radial-gradient(circle,black,transparent 72%);animation:spin 74s linear infinite reverse}.orbit-ring{position:absolute;left:50%;top:48%;width:min(86vw,68vh);aspect-ratio:1;border-radius:50%;transform:translate(-50%,-50%) rotateX(64deg) rotateZ(-12deg);border:1px dashed rgba(215,255,56,.18);animation:spin 50s linear infinite}.node{position:absolute;left:calc(var(--x)*1%);top:calc(var(--y)*1%);transform:translate(-50%,-50%);z-index:4}.node-pin{width:28px;height:28px;border-radius:50%;background:rgba(247,240,232,.96);box-shadow:0 0 0 9px rgba(247,240,232,.10),0 0 42px rgba(73,234,255,.20);transition:.25s}.node.active .node-pin{background:var(--lime);animation:orbitPulse 2.1s ease-in-out infinite}.node.selected .node-pin{transform:scale(1.18);box-shadow:0 0 0 12px rgba(215,255,56,.12),0 0 58px rgba(215,255,56,.52)}.node-tag{position:absolute;left:35px;top:50%;transform:translateY(-50%);min-width:185px;padding:12px 14px;border-radius:19px;background:rgba(8,10,11,.64);border:1px solid rgba(255,255,255,.13);backdrop-filter:blur(18px);box-shadow:0 20px 60px rgba(0,0,0,.30);transition:.25s}.node-tag strong{display:block;font-size:clamp(16px,1.45vw,21px);letter-spacing:-.03em}.node-tag span{display:block;font-size:clamp(28px,2.95vw,42px);line-height:.9;letter-spacing:-.07em;font-weight:830;margin-top:5px}.node.selected .node-tag,.node:hover .node-tag{border-color:rgba(215,255,56,.45);background:rgba(8,10,11,.78);transform:translateY(-50%) translateX(4px)}.node.side-left .node-tag{left:auto;right:35px;text-align:right}.node.side-left.selected .node-tag,.node.side-left:hover .node-tag{transform:translateY(-50%) translateX(-4px)}.focus-strip{position:absolute;left:3vw;right:3vw;bottom:2.7vh;z-index:8;display:grid;grid-template-columns:1fr auto;gap:2vw;align-items:center;padding:2.25vh 2.2vw;border-radius:30px;background:rgba(247,240,232,.94);color:#101214;box-shadow:0 28px 95px rgba(0,0,0,.38);overflow:hidden}.focus-strip::before{content:"";position:absolute;left:0;right:0;top:0;height:4px;background:linear-gradient(90deg,var(--lime),var(--cyan),var(--violet))}.focus-strip h2{margin:0;font-size:clamp(32px,4.7vw,64px);line-height:.88;letter-spacing:-.07em}.focus-strip p{margin:.75vh 0 0;color:rgba(16,18,20,.62);font-size:clamp(14px,1.5vw,20px);line-height:1.25}.focus-time{font-size:clamp(70px,10vw,140px);line-height:.82;letter-spacing:-.085em;font-weight:850}.orbit-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2vw}.orbit-stat{position:relative;padding:1.8vh 1.5vw;border-radius:26px;background:rgba(255,255,255,.074);border:1px solid rgba(255,255,255,.12);overflow:hidden}.orbit-stat::after{content:"";position:absolute;inset:auto 0 0 0;height:3px;background:linear-gradient(90deg,var(--lime),transparent)}.orbit-stat span{display:block;color:rgba(247,240,232,.50);font-size:clamp(11px,1.05vw,15px);letter-spacing:.18em;text-transform:uppercase;font-weight:800}.orbit-stat b{display:block;font-size:clamp(36px,5.2vw,72px);line-height:.84;letter-spacing:-.075em;margin-top:.7vh}.path-line{position:absolute;height:1px;background:linear-gradient(90deg,transparent,rgba(215,255,56,.22),transparent);transform-origin:left center;z-index:1;opacity:.9}
+@media (max-aspect-ratio: 9/16){.scene{padding-left:4.7vw;padding-right:4.7vw}.signal-wrap{grid-template-rows:auto 42vh 1fr}.signal-main{grid-template-columns:1fr .62fr;grid-template-rows:1fr}.side-stack{grid-template-columns:1fr;grid-template-rows:1fr 1fr}.radar{width:min(47vw,34vh)}.hub-grid{grid-template-columns:repeat(3,1fr);gap:1.05vh 1.1vw}.hub-card{min-height:8.5vh;padding:1.15vh 1.4vw}.hero-time{font-size:clamp(72px,13vw,150px)}.metric-card{padding:1.55vh 1.4vw}.metric-card b{font-size:clamp(36px,5.8vw,70px)}.metric-card p{font-size:clamp(12px,1.3vw,17px)}.mini-flow{height:52px}.hub-card-time{font-size:clamp(28px,3.4vw,46px)}.orbit-head{grid-template-columns:1fr}.orbit-live{display:none}.focus-strip{grid-template-columns:1fr}.focus-time{font-size:clamp(58px,13vw,110px)}.node-tag{min-width:156px;padding:10px}.node-tag span{font-size:clamp(24px,5vw,36px)}}
+</style>
+</head>
+<body>
+<div id="app" class="app">
+  <div class="aurora"></div>
+  <div class="scanline"></div>
+  <div class="logo-shell"><img alt="Klaviyo" src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBzdGFuZGFsb25lPSJubyI/Pgo8IURPQ1RZUEUgc3ZnIFBVQkxJQyAiLS8vVzNDLy9EVEQgU1ZHIDEuMS8vRU4iICJodHRwOi8vd3d3LnczLm9yZy9HcmFwaGljcy9TVkcvMS4xL0RURC9zdmcxMS5kdGQiPgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgaWQ9IkxheWVyXzEiIHZlcnNpb249IjEuMSIgdmlld0JveD0iMCAwIDI5MyAxMTciIHdpZHRoPSIyOTMiIGhlaWdodD0iMTE3Ij4KICA8IS0tIEdlbmVyYXRvcjogQWRvYmUgSWxsdXN0cmF0b3IgMzAuMS4wLCBTVkcgRXhwb3J0IFBsdWctSW4gLiBTVkcgVmVyc2lvbjogMi4xLjEgQnVpbGQgMTM2KSAgLS0+CiAgPGRlZnM+CiAgICA8c3R5bGU+CiAgICAgIC5zdDAgewogICAgICAgIGZpbGw6ICMxZDFlMjA7CiAgICAgIH0KICAgIDwvc3R5bGU+CiAgPC9kZWZzPgogIDxwYXRoIGNsYXNzPSJzdDAiIGQ9Ik0xNjEuMSwxMS42YzAtMS41LjYtMywxLjctNC4xLDEuMS0xLjEsMi42LTEuNyw0LjEtMS44LDEuNiwwLDMuMS43LDQuMiwxLjgsMS4xLDEuMSwxLjgsMi42LDEuOCw0LjIsMCwxLjUtLjcsMy0xLjgsNC4xLTEuMSwxLjEtMi42LDEuNy00LjIsMS43LTEuNSwwLTMtLjYtNC4xLTEuNy0xLjEtMS4xLTEuNy0yLjYtMS43LTQuMVpNMjA3LjUsMjQuMWMyLjgsMCw0LjcsMS42LDQuNyw1cy0uOCw1LjItMi41LDkuN2MtMi4zLDYuMS00LjcsMTMuMS03LjIsMjEuMS0xLjEtMy44LTMuMy0xMC02LjEtMTdsLTIuMy02LjVjLTEuMy0zLjYtMi02LjQtMi04LjJzMS4yLTQsMy42LTQuMnYtMS4xaC0yMHYxLjFjMi43LjMsNC45LDIuOCw3LjgsMTAuNWwxMi42LDMzLjNjMS43LDQuNCwxLjUsOC4zLS41LDExLjktMS41LDMuMS0zLjUsNC43LTYsNC43cy00LjctMS4zLTQuNy00LDItMy4xLDItNS4yLTIuMi00LjEtNC43LTQuMS01LjcsMi40LTUuNyw1LjljMCw1LjIsNC41LDkuNywxMC41LDkuNywzLjEuMyw1LjUtMS4zLDcuMi0yLjcsMS4xLS44LDIuNC0zLjUsMy4xLTQuOC41LTEsMS0yLjEsMS4zLTMuMi42LTEuNSwxLTIuNywxLjItMy41LjMtLjguOC0yLjEsMS40LTQuMWwxLjQtNC41YzMuOC0xMS43LDcuNC0yMS45LDEwLjgtMzAuNiwyLTUsNC42LTcuOSw2LTguNi43LS40LDEuNS0uNiwyLjMtLjh2LTEuMWgtMTQuNHYxLjJaTTY4LjksNjUuNWMtMi41LS40LTQuNy0yLjctNC43LTcuNVYwbC0xNC41LDMuMXYxLjJjMi41LS4zLDQuOSwxLjksNC45LDYuNnY0N2MwLDQuNS0yLjUsNy4yLTQuOSw3LjUtLjIsMC0uNSwwLS43LDAtMS4zLDAtMi41LS4xLTMuNy0uNi0yLjEtMS0zLjgtMi42LTQuOS00LjZsLTYuNy0xMC43Yy0xLjQtMi4yLTMuNS00LTYtNC45LTIuNS0xLTUuMi0xLjEtNy44LS40bDcuNS04LjNjNS43LTYuMywxMS0xMC4zLDE2LTEydi0xLjFoLTE2LjZ2MS4xYzQuMywxLjcsNCw1LjMtLjksMTEuMWwtMTAuNiwxMi4zVjBMLjgsMy4xdjEuMmMyLjUsMCw0LjksMi41LDQuOSw2Ljd2NDYuOWMwLDUuMi0yLjQsNy4yLTQuOSw3LjV2MS4xaDE5LjJ2LTEuMWMtMy4yLS40LTQuNy0yLjktNC43LTcuNXYtOC43bDQuMS00LjUsMTAsMTYuM2MyLjQsNCw0LjUsNS41LDguMSw1LjVoMzMuNHYtLjlzLS45LDAtMi0uM1pNMTEzLjQsNjUuNnYxLjFzLTkuOSwzLjUtMTIuOC0yLjVjLS44LTEuNi0xLjItMy4zLTEuMi01LjEtMi43LDUuNi04LjcsOC42LTE0LjMsOC42cy0xMi4yLTMuMy0xMi4yLTEwLjZjMC0xLjguNi0zLjYsMS42LTUuMSwyLjEtMy4xLDQuNS00LjgsOS4xLTYuNiwyLjMtLjksNC4yLTEuNSw1LjctMS45LDEuNS0uNCwzLjQtLjksNS43LTEuM2w0LjQtMXYtNS4zYzAtOC43LTMuOC0xMi43LTktMTIuN3MtNi41LDIuNy02LjUsNS45LDEuMiw0LjMsMS4yLDYuMS0yLjIsNC4yLTUuMyw0LjItNC42LTIuNC00LjYtNS41LDEuNi02LDQuOC04LjVjMy4xLTIuNCw3LTMuNywxMC45LTMuNywxMi4zLDAsMTcuNyw1LjgsMTcuOSwxOC42djE5LjVjMCwxLjMuNCw2LjQsNC43LDUuN1pNOTkuNCw0Mi41Yy0uNS4zLTEuOC43LTMuOCwxLjVsLTQsMS41Yy0xLC41LTEuOC45LTMuMiwxLjctMS4xLjUtMi4yLDEuMy0zLjEsMi4yLTEuNSwxLjctMi40LDMuOC0yLjUsNiwwLDUuMiwyLjgsOCw3LjEsOHM0LjMtLjksNi4zLTIuNWMyLjEtMS43LDMuMi00LDMuMi02Ljl2LTExLjRaTTI2MS45LDQ0LjhjMCwzLS41LDYtMS43LDguOC0xLjEsMi44LTIuOCw1LjMtNC45LDcuNS0yLDIuMS00LjUsMy44LTcuMiw1LTIuNywxLjItNS42LDEuOC04LjUsMS44cy01LjgtLjYtOC41LTEuOGMtMi43LTEuMi01LjEtMi45LTcuMi01LTQuMi00LjQtNi42LTEwLjItNi41LTE2LjMsMC0zLC41LTYsMS42LTguNywxLjEtMi44LDIuOC01LjMsNC45LTcuNSwyLTIuMiw0LjQtMy45LDcuMS01LDIuNy0xLjIsNS42LTEuOCw4LjYtMS44czUuOS42LDguNiwxLjhjMi43LDEuMiw1LjEsMi45LDcuMSw1LDIuMSwyLjEsMy44LDQuNiw1LDcuNHMxLjcsNS44LDEuNiw4LjhoMFpNMjQ3LjYsMjkuM2MtMS43LTMuNC00LTUuNC02LjctNS45LTUuNC0xLjEtMTAuMiw0LjUtMTIsMTMuMy0uOCw0LTEsOC0uNiwxMiwuNCw0LDEuNSw3LjksMy4zLDExLjYsMS43LDMuNCw0LDUuNCw2LjcsNS45LDUuNCwxLjEsMTAuNC00LjcsMTIuMi0xMy42LDEuNS03LjUuOC0xNi42LTIuOS0yMy4zWk0xNzIsNThWMjIuOWgtMzAuOXYxLjFjNC4xLjYsNi4xLDMuNyw0LjIsOC43LTkuNywyNi4xLTksMjUtOS43LDI3LjEtLjYtMi0yLTctNC4zLTEzLjItMi4zLTYuMi0zLjgtMTAuMy00LjQtMTIuMi0yLjQtNy4zLTEuNi0xMCwyLjMtMTAuNHYtMS4xaC0yMHYxLjFjMywuNiw1LjYsNCw3LjgsMTAuMWwzLjEsOGMzLjQsOC42LDcuMywyMC41LDguNywyNC41aDYuN2MyLjEtNi4yLDEwLjctMzEuMSwxMS45LTMzLjYsMS4yLTIuOSwyLjYtNS4xLDQuMi02LjYsMS42LTEuNSwzLjctMi40LDYtMi41LDAsMCw0LjgtLjIsNC44LDQuNnYyOS4zYzAsNC45LTIuNCw3LjItNC44LDcuNXYxLjFoMTkuMXYtMS4xYy0yLjUtLjQtNC42LTIuNi00LjYtNy41WiIvPgogIDxwYXRoIGNsYXNzPSJzdDAiIGQ9Ik0yNjksNTkuNmMtLjgtLjgtMS44LTEuMi0yLjktMS4ycy0yLjEuNC0yLjksMS4yYy0uOC44LTEuMiwxLjgtMS4yLDIuOXMuNCwyLjEsMS4yLDIuOWMuOC44LDEuOCwxLjIsMi45LDEuMnMyLjEtLjQsMi45LTEuMmMuOC0uNywxLjItMS44LDEuMi0yLjlzLS40LTIuMS0xLjItMi45Wk0yNjYuMSw2NS44Yy0uOSwwLTEuNy0uMy0yLjMtMS0uNi0uNi0uOS0xLjUtLjktMi4zcy4zLTEuNy45LTIuM2MuNi0uNiwxLjQtMSwyLjMtMXMxLjcuMywyLjMsMWMuNi42LjksMS41LjksMi4zcy0uMywxLjctLjksMi4zYy0uNi42LTEuNCwxLTIuMywxaDBaIi8+CiAgPHBhdGggY2xhc3M9InN0MCIgZD0iTTI2Ny44LDYxLjdjMC0uOC0uNS0xLjItMS41LTEuMmgtMS44djMuOGguOXYtMS40aC42bC45LDEuNGgxbC0xLTEuNmMuNi0uMi45LS42LjktMS4xWk0yNjYuMiw2Mi4zaC0uOHYtMS4xaC44Yy40LDAsLjcuMi43LjVzLS4yLjUtLjcuNVoiLz4KICA8cGF0aCBjbGFzcz0ic3QwIiBkPSJNMjU5LjIsMGgzMy42bC02LjYsMTEuNSw2LjYsMTEuNWgtMzMuNlYwWiIvPgo8L3N2Zz4=" /></div>
+  <div class="top-status">Live hub time <b id="globalNow">--:--</b></div>
+  <main id="scene" class="scene active"></main>
+  <nav id="modeButtons" class="hints" aria-label="Display controls"></nav>
+</div>
+<script>
+const hubs = [
+  {name:'Boston', short:'BOS', tz:'America/New_York', region:'US East', x:28, y:38},
+  {name:'Denver', short:'DEN', tz:'America/Denver', region:'Mountain', x:20, y:53},
+  {name:'San Francisco', short:'SF', tz:'America/Los_Angeles', region:'Pacific', x:13, y:61},
+  {name:'London', short:'LON', tz:'Europe/London', region:'UK', x:56, y:40},
+  {name:'Dublin', short:'DUB', tz:'Europe/Dublin', region:'Ireland', x:49, y:30, side:'left'},
+  {name:'Sydney', short:'SYD', tz:'Australia/Sydney', region:'Australia', x:80, y:70, side:'left'}
+];
+const MODES = ["signal"];
+let mode = MODES[0];
+let selected = mode === 'signal' ? 0 : 3;
+let autoMotion = true;
+let lastUserTouch = 0;
+const app = document.getElementById('app');
+const scene = document.getElementById('scene');
+const modeButtons = document.getElementById('modeButtons');
+const globalNow = document.getElementById('globalNow');
+
+function pad(n){ return String(n).padStart(2,'0'); }
+function parts(tz){
+  const d = new Date();
+  const parts = new Intl.DateTimeFormat('en-US',{timeZone:tz,hour12:false,weekday:'short',month:'short',day:'2-digit',hour:'2-digit',minute:'2-digit',timeZoneName:'short'}).formatToParts(d);
+  const m = Object.fromEntries(parts.map(p => [p.type, p.value]));
+  let hour = Number(m.hour); if(hour === 24) hour = 0;
+  const minute = Number(m.minute);
+  return {hour, minute, mins:hour*60+minute, weekday:m.weekday, month:m.month, day:m.day, zone:m.timeZoneName || ''};
+}
+function statusFor(hub){
+  const p = parts(hub.tz);
+  const d = new Date();
+  const time12 = d.toLocaleTimeString('en-US',{timeZone:hub.tz,hour:'numeric',minute:'2-digit',hour12:true}).replace(' ', '');
+  const active = p.hour >= 9 && p.hour < 18;
+  const before = p.hour < 9;
+  const workStart = 9*60, workEnd = 18*60;
+  const workProgress = active ? (p.mins - workStart) / (workEnd - workStart) : (before ? 0 : 1);
+  const day = p.mins / 1440;
+  const text = active ? 'Collaboration hours' : (before ? 'Coming online' : 'After hours');
+  const dateLabel = `${p.weekday} ${p.month} ${Number(p.day)}`;
+  const deltaToOpen = active ? Infinity : (before ? workStart - p.mins : 1440 - p.mins + workStart);
+  return {time12, active, before, text, dateLabel, zone:p.zone, mins:p.mins, hour:p.hour, day, workProgress, deltaToOpen};
+}
+function activeCount(){ return hubs.filter(h => statusFor(h).active).length; }
+function nextOnline(){
+  const inactive = hubs.map((hub, i) => ({hub, i, delta:statusFor(hub).deltaToOpen})).filter(x => Number.isFinite(x.delta));
+  inactive.sort((a,b)=>a.delta-b.delta);
+  return inactive[0] || {hub:hubs[0], i:0, delta:0};
+}
+function duration(mins){
+  mins = Math.max(0, Math.round(mins));
+  const h = Math.floor(mins/60), m = mins%60;
+  if(h === 0) return `${m}m`;
+  return `${h}h ${pad(m)}m`;
+}
+function liveTime(){ return new Date().toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'}); }
+function escapeHtml(s){ return String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+function markUser(){ lastUserTouch = Date.now(); }
+function selectHub(i){ selected = i; markUser(); render(); }
+window.selectHub = selectHub;
+function setMode(next){ if(!MODES.includes(next)) return; mode = next; selected = next === 'signal' ? 0 : 3; markUser(); render(); }
+window.setMode = setMode;
+
+function renderChrome(){
+  globalNow.textContent = liveTime();
+  modeButtons.innerHTML = MODES.length > 1 ? MODES.map(m => `<button class="${m===mode?'active':''}" onclick="setMode('${m}')">${m==='signal'?'1 Signal':'2 Orbit'}</button>`).join('') + '<span class="hint-chip">Tap hubs</span><span class="hint-chip">H hides</span>' : '<span class="hint-chip">Tap hubs</span><span class="hint-chip">H hides</span><span class="hint-chip">M motion</span>';
+}
+function render(){
+  renderChrome();
+  if(mode === 'signal') renderSignal(); else renderOrbit();
+}
+
+function renderSignal(){
+  const h = hubs[selected]; const st = statusFor(h); const active = activeCount(); const next = nextOnline();
+  const bars = Array.from({length:24}, (_,i) => `<span style="--h:${12 + Math.round(Math.abs(Math.sin((i+1)*.62))*56)};--d:${i}"></span>`).join('');
+  const tickerText = 'BOS / DEN / SF / LON / DUB / SYD / LIVE LOCAL TIME / TAP TO FOCUS / FOLLOW THE SUN / ';
+  scene.className = 'scene active signal';
+  scene.innerHTML = `
+    <div class="signal-wrap">
+      <header class="signal-head">
+        <div class="eyebrow">Klaviyo hub time</div>
+        <h1>Global <span class="lite">Signal</span></h1>
+        <p class="copy">A live command-center view for Klaviyo hub time: bold focal clock, active workday signals, and tap-to-focus hub cards.</p>
+      </header>
+      <section class="signal-dashboard">
+        <div class="panel signal-main">
+          <div class="radar-zone">
+            <div class="radar"><div class="sweep"></div><div class="hero-clock"><div class="hero-city">${escapeHtml(h.name)}</div><div class="hero-time mono">${st.time12}</div><div class="hero-meta"><span class="pulse ${st.active?'':'off'}"></span><span>${st.text}</span><span>${st.dateLabel}</span><span>${st.zone}</span></div></div></div>
+          </div>
+          <aside class="side-stack">
+            <div class="metric-card"><div class="small">Live network</div><b class="mono">${active}/6</b><p>hubs inside standard 9:00-18:00 collaboration hours right now.</p><div class="mini-flow">${bars}</div></div>
+            <div class="metric-card"><div class="small">Next online</div><b>${next.hub.short}</b><p>${next.hub.name} enters collaboration hours in ${duration(next.delta)}.</p></div>
+          </aside>
+          <div class="ticker"><div class="ticker-track"><span>${tickerText}</span><span>${tickerText}</span></div></div>
+        </div>
+      </section>
+      <section class="hub-grid">
+        ${hubs.map((hub,i)=>{ const x=statusFor(hub); return `<button class="hub-card ${i===selected?'selected':''}" style="--day:${x.day}" onclick="selectHub(${i})" aria-label="Focus ${escapeHtml(hub.name)}"><div class="hub-card-name">${escapeHtml(hub.name)}</div><div class="hub-card-time mono">${x.time12}</div><div class="hub-card-state"><span class="tiny-dot ${x.active?'':'off'}"></span>${x.text} - ${x.zone}</div></button>`}).join('')}
+      </section>
+    </div>`;
+}
+
+function renderOrbit(){
+  const h = hubs[selected]; const st = statusFor(h); const active = activeCount(); const next = nextOnline();
+  scene.className = 'scene active orbit';
+  const lines = [
+    {l:17,t:58,w:210,r:-14},{l:30,t:45,w:245,r:-4},{l:49,t:34,w:170,r:12},{l:57,t:39,w:280,r:20},{l:41,t:67,w:360,r:12}
+  ].map(o => `<div class="path-line" style="left:${o.l}%;top:${o.t}%;width:${o.w}px;transform:rotate(${o.r}deg)"></div>`).join('');
+  scene.innerHTML = `
+    <div class="orbit-wrap">
+      <header class="orbit-head">
+        <div><div class="eyebrow">Klaviyo hub time</div><h1>Hub <span class="lite">Orbit</span></h1><p class="copy">A cinematic digital map: hub nodes pulse when local teams are online, with one touch bringing the selected hub into focus.</p></div>
+        <div class="orbit-live"><div class="small">Active now</div><b class="mono">${active}/6</b><span><i class="pulse"></i> live hub network</span></div>
+      </header>
+      <section class="orbit-space">
+        <div class="orbit-ring"></div><div class="orbital-core"><div class="latlines"></div></div>${lines}
+        ${hubs.map((hub,i)=>{ const x=statusFor(hub); return `<button class="node side-${hub.side||'right'} ${x.active?'active':''} ${i===selected?'selected':''}" style="--x:${hub.x};--y:${hub.y}" onclick="selectHub(${i})" aria-label="Focus ${escapeHtml(hub.name)}"><div class="node-pin"></div><div class="node-tag"><strong>${escapeHtml(hub.name)}</strong><span class="mono">${x.time12}</span></div></button>`}).join('')}
+        <div class="focus-strip"><div><h2>${escapeHtml(h.name)}</h2><p>${st.text} - ${st.dateLabel} - ${h.region} - ${st.zone}</p></div><div class="focus-time mono">${st.time12}</div></div>
+      </section>
+      <section class="orbit-stats"><div class="orbit-stat"><span>Selected hub</span><b>${h.short}</b></div><div class="orbit-stat"><span>Next online</span><b>${next.hub.short}</b></div><div class="orbit-stat"><span>Opening in</span><b>${duration(next.delta)}</b></div></section>
+    </div>`;
+}
+
+document.addEventListener('keydown', e => {
+  if(e.key === '1') setMode('signal');
+  if(e.key === '2') setMode('orbit');
+  if(e.key === 'ArrowRight' || e.key === ' ') { selected = (selected + 1) % hubs.length; markUser(); render(); }
+  if(e.key === 'ArrowLeft') { selected = (selected - 1 + hubs.length) % hubs.length; markUser(); render(); }
+  if(e.key === 'h' || e.key === 'H') app.classList.toggle('hide-hints');
+  if(e.key === 'm' || e.key === 'M') { autoMotion = !autoMotion; app.classList.toggle('no-motion', !autoMotion); }
+});
+const params = new URLSearchParams(location.search);
+if(params.get('clean') === '1') app.classList.add('clean');
+if(params.get('motion') === '0') { autoMotion = false; app.classList.add('no-motion'); }
+render();
+setInterval(render, 30000);
+setInterval(() => { if(!autoMotion) return; if(Date.now() - lastUserTouch < 15000) return; selected = (selected + 1) % hubs.length; render(); }, 9000);
+</script>
+</body>
+</html>
